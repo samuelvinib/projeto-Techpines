@@ -5,7 +5,7 @@ services:
             context: .
             dockerfile: docker/Dockerfile
         environment:
-            - .env.example
+            - .env
         ports:
             - "8000:80"
         tty: true
