@@ -10,9 +10,9 @@ services:
             - "8000:80"
         tty: true
         volumes:
-            - ./:/opt/tech_pines_api
-            - /opt/tech_pines_api/vendor
-            - /opt/tech_pines_api/node_modules
+            - ./:/opt/tech-pines
+            - /opt/tech-pines/vendor
+            - /opt/tech-pines/node_modules
         networks:
             - tech_pines_api
         command: "/bin/sh /opt/tech-pines/scripts/entrypoint.sh"
