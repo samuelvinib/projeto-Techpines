@@ -1,0 +1,32 @@
+services:
+    tech_pines_api:
+        container_name: tech_pines_api
+        build:
+            context: .
+            dockerfile: docker/Dockerfile
+        environment:
+            - .env.example
+        ports:
+            - "8000:80"
+        tty: true
+        volumes:
+            - ./:/opt/tech_pines_api
+            - /opt/tech_pines_api/vendor
+            - /opt/tech_pines_api/node_modules
+        networks:
+            - tech_pines_api
+        command: "/bin/sh /opt/tech-pines/scripts/entrypoint.sh"
+    db:
+        image: postgres:latest
+        container_name: postgres-container
+        environment:
+            - POSTGRES_USER=user
+            - POSTGRES_PASSWORD=my-secret-pw
+            - POSTGRES_DB=laravel
+        ports:
+            - "5432:5432"
+        networks:
+            - tech_pines_api
+networks:
+    tech_pines_api:
+        name: tech_pines_api
