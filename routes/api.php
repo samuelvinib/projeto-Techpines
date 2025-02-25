@@ -4,6 +4,7 @@ use App\Http\Controllers\MusicController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\VideoController;
 
 Route::group([
     'middleware' => 'api',
@@ -17,3 +18,5 @@ Route::group([
 });
 
 Route::apiResource('/music', MusicController::class);
+
+Route::post('/extract-video', [VideoController::class, 'extractData'])->middleware('auth:api');
