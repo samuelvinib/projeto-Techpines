@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('music', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('url'); // URL do vídeo (YouTube)
-            $table->string('title'); // Nome da música
-            $table->integer('views'); // Número de visualizações
-            $table->string('cover'); // URL da capa da música
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending'); // Status de aprovação
+            $table->string('url');
+            $table->string('title');
+            $table->integer('views');
+            $table->string('cover');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
         });
     }
 

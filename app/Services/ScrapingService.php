@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 
-class VideoService
+class ScrapingService
 {
     /**
      * Extracts the video ID from a YouTube URL.
@@ -62,7 +62,8 @@ class VideoService
             'title' => $title,
             'views' => $views,
             'youtube_id' => $videoId,
-            'thumbnail' => "https://img.youtube.com/vi/$videoId/hqdefault.jpg"
+            'cover' => "https://img.youtube.com/vi/$videoId/hqdefault.jpg",
+            'url' => $url
         ];
     }
 }

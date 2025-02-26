@@ -2,57 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreMusicRequest;
-use App\Http\Requests\UpdateMusicRequest;
-use App\Models\Music;
-use Illuminate\Http\JsonResponse;
+use App\Services\ScrapingService;
+use Illuminate\Http\Request;
+use App\Repositories\MusicRepository;
 
 class MusicController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(): \Illuminate\Database\Eloquent\Collection
+    protected ScrapingService $scrapingService;
+    protected $repository;
+
+    // Injeta o serviço no controller
+    public function __construct(ScrapingService $scrapingService, MusicRepository $repository)
     {
-        return Music::all();
+        $this->scrapingService = $scrapingService;
+        $this->repository = $repository;
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Extracts video data and returns it as JSON.
      */
-    public function store(StoreMusicRequest $request) : JsonResponse
+    public function extractData(Request $request)
     {
-        $validated = $request->validate([
-            'url' => 'required|url',
+        $request->validate([
+            'url' => 'required|url'
         ]);
 
+        $url = $request->input('url');
+        $videoId = $this->scrapingService->extractVideoId($url);
 
+        if (!$videoId) {
+            return response()->json(['error' => 'Invalid YouTube URL'], 400);
+        }
 
-        // Retornando a música criada
-        return response()->json($request["url"], 201);
+        $videoInfo = $this->scrapingService->getVideoInfo($videoId);
+
+        if (!$videoInfo) {
+            return response()->json(['error' => 'Video not found or unavailable'], 404);
+        }
+        $result = $this->repository->create($videoInfo);
+        return response()->json($result);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Music $music)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateMusicRequest $request, Music $music)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Music $music)
-    {
-        //
+    public function getData(Request $request){
+        return $this->repository->getMostViewed();
     }
 }
