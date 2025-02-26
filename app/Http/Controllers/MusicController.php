@@ -45,7 +45,7 @@ class MusicController extends Controller
 
     public function index(Request $request)
     {
-        return $this->repository->getMostViewed();
+        return $this->repository->getPageView();
     }
 
     public function update(Request $request, $id)

@@ -20,6 +20,6 @@ Route::group([
 Route::apiResource('/music', MusicController::class)->except(['store', 'update', 'destroy']);
 Route::middleware('auth:api')->group(function () {
     Route::post('/music', [MusicController::class, 'store']);
-    Route::put('/music/{music}', [MusicController::class, 'update']);
-    Route::delete('/music/{music}', [MusicController::class, 'destroy']);
+    Route::put('/music/{music}', [MusicController::class, 'update'])->middleware('admin');
+    Route::delete('/music/{music}', [MusicController::class, 'destroy'])->middleware('admin');
 });

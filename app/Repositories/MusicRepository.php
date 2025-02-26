@@ -2,13 +2,25 @@
 namespace App\Repositories;
 
 use App\Models\Music;
+use Illuminate\Http\Request;
 
 class MusicRepository
 {
-    public function getMostViewed(int $limit = 5)
-    {
-        return Music::orderByDesc('views')->limit($limit)->get();
+    protected $request;
+    public function __construct(Request $request){
+        $this->request = $request;
     }
+    public function getPageView()
+    {
+        $perPage = $this->request->input('per_page', 5);
+
+        $page = $this->request->input('page', 1);
+
+        $musics = Music::orderByDesc('views')->paginate($perPage);
+
+        return response()->json($musics);
+    }
+
 
     public function findByTitle(string $title)
     {
