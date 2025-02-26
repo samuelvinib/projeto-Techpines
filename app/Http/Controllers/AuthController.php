@@ -2,50 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Validator;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-
     /**
      * Register a User.
      *
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register() {
-        $validator = Validator::make(request()->all(), [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed|min:8',
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users|max:255',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $user = new User;
-        $user->name = request()->name;
-        $user->email = request()->email;
-        $user->password = bcrypt(request()->password);
-        $user->save();
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-        return response()->json($user, 201);
+        return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
     }
-
 
     /**
      * Get a JWT via given credentials.
      *
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(Request $request)
     {
-        $credentials = request(['email', 'password']);
+        $credentials = $request->only('email', 'password');
 
-        if (! $token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -70,7 +71,6 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->logout();
-
         return response()->json(['message' => 'Successfully logged out']);
     }
 
@@ -87,8 +87,7 @@ class AuthController extends Controller
     /**
      * Get the token array structure.
      *
-     * @param  string $token
-     *
+     * @param string $token
      * @return \Illuminate\Http\JsonResponse
      */
     protected function respondWithToken($token)

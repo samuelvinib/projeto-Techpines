@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('music', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('url');
-            $table->string('title');
+            $table->string('url')->nullable(false);
+            $table->string('title')->nullable(false);
             $table->integer('views');
             $table->string('cover');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
