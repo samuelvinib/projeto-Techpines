@@ -24,4 +24,29 @@ class MusicRepository
     {
         return Music::create($data);
     }
+
+    public function findById(int $id): ?Music
+    {
+        return Music::find($id);
+    }
+
+    public function update(int $id, array $data): bool
+    {
+        $music = Music::find($id);
+        if ($music) {
+            return $music->update($data);
+        }
+
+        return false;
+    }
+
+    public function delete(int $id): bool
+    {
+        $music = Music::find($id);
+        if ($music) {
+            return $music->delete();
+        }
+
+        return false;
+    }
 }

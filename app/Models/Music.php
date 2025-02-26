@@ -15,5 +15,6 @@ class Music extends Model
         'title',
         'views',
         'cover',
+        'status'
     ];
 }
