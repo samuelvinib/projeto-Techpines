@@ -63,48 +63,6 @@ class MusicSeeder extends Seeder
                 'cover' => 'https://img.youtube.com/vi/w1YTPd82Sok/hqdefault.jpg',
                 'views' => rand(100, 10000),
             ],
-            [
-                'title' => 'A vaca já foi pro brejo',
-                'url' => '2bM30c50lYk',
-                'cover' => 'https://img.youtube.com/vi/2bM30c50lYk/hqdefault.jpg',
-                'views' => rand(100, 10000),
-            ],
-            [
-                'title' => 'Menino da Porteira',
-                'url' => 'z5oJt49617w',
-                'cover' => 'https://img.youtube.com/vi/z5oJt49617w/hqdefault.jpg',
-                'views' => rand(100, 10000),
-            ],
-            [
-                'title' => 'Chora Viola',
-                'url' => '5r6hV2e956w',
-                'cover' => 'https://img.youtube.com/vi/5r6hV2e956w/hqdefault.jpg',
-                'views' => rand(100, 10000),
-            ],
-            [
-                'title' => 'Travessia do Araguaia',
-                'url' => 'z5oJt49617w',
-                'cover' => 'https://img.youtube.com/vi/z5oJt49617w/hqdefault.jpg',
-                'views' => rand(100, 10000),
-            ],
-            [
-                'title' => 'Amargurado',
-                'url' => 'K5t98P5z32k',
-                'cover' => 'https://img.youtube.com/vi/K5t98P5z32k/hqdefault.jpg',
-                'views' => rand(100, 10000),
-            ],
-            [
-                'title' => 'Velho Peão',
-                'url' => '4134914102',
-                'cover' => 'https://img.youtube.com/vi/4134914102/hqdefault.jpg',
-                'views' => rand(100, 10000),
-            ],
-            [
-                'title' => 'Ferreirinha',
-                'url' => '5134914102',
-                'cover' => 'https://img.youtube.com/vi/5134914102/hqdefault.jpg',
-                'views' => rand(100, 10000),
-            ],
         ];
 
         $now = Carbon::now();
