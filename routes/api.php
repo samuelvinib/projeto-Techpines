@@ -16,10 +16,10 @@ Route::group([
     Route::post('/me', [AuthController::class, 'me'])->middleware('auth:api')->name('me');
 });
 
-//Route::apiResource('/music', MusicController::class);
-Route::apiResource('/music', MusicController::class)->except(['store', 'update', 'destroy']);
+Route::get('/music', [MusicController::class, 'index']);
 Route::middleware('auth:api')->group(function () {
     Route::post('/music', [MusicController::class, 'store']);
+    Route::get('/music/pending', [MusicController::class, 'getPendingMusics']);
     Route::put('/music/{music}', [MusicController::class, 'update'])->middleware('admin');
     Route::delete('/music/{music}', [MusicController::class, 'destroy'])->middleware('admin');
 });

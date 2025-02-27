@@ -43,10 +43,15 @@ class MusicController extends Controller
         return response()->json($result);
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        return $this->repository->getPageView();
+        return $this->repository->getApprovedMusics();
     }
+
+    public function getPendingMusics(){
+        return $this->repository->getPendingMusics();
+    }
+
 
     public function update(Request $request, $id)
     {

@@ -12,14 +12,36 @@ class MusicRepository
     }
     public function getPageView()
     {
-        $perPage = $this->request->input('per_page', 5);
+        $perPage = is_numeric($this->request->input('per_page')) ? (int) $this->request->input('per_page') : 5;
+
 
         $page = $this->request->input('page', 1);
 
-        $musics = Music::orderByDesc('views')->paginate($perPage);
+        $musics = Music::orderByDesc('views')->paginate();
 
         return response()->json($musics);
     }
+
+    public function getPendingMusics()
+    {
+        // Retorna todas as músicas com status 'pending', ordenadas por views (decrescente)
+        $pendingMusics = Music::where('status', 'pending')->get();
+
+        return response()->json($pendingMusics);
+    }
+
+
+    public function getApprovedMusics()
+    {
+        $perPage = is_numeric($this->request->input('per_page')) ? (int) $this->request->input('per_page') : 5;
+        $page = $this->request->input('page', 1);
+
+        $approvedMusics = Music::where('status', 'approved')->orderByDesc('views')->paginate($perPage);
+
+        return response()->json($approvedMusics);
+    }
+
+
 
 
     public function findByTitle(string $title)
